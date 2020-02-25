@@ -1,0 +1,19 @@
+{
+  "name": "contracttesting",
+  "version": "1.0.0",
+  "description": "",
+  "main": "contract-ref-api-app.js",
+  "scripts": {
+    "start": "node contract-ref-api-app.js",
+    "test": "dredd"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.ibm.com:dllamber/ContractTesting.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

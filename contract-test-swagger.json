@@ -1,0 +1,289 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "x-ibm-name": "pnc-contract-reference",
+    "title": "PNC Contract Test Reference API",
+    "version": "1.0.1",
+    "description": "Reference API for Contract Testing",
+    "contact": {
+      "name": "Abdul Rasid",
+      "email": "Abdul.Rasid@ibm.com"
+    }
+  },
+  "schemes": [
+    "https"
+  ],
+  "basePath": "/contract/api/",
+  "tags": [
+    {
+      "name": "PNC Contract Test Reference API",
+      "description": "Reference API for Contract Testing"
+    }
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "x-ibm-configuration": {
+    "testable": true,
+    "enforced": false,
+    "cors": {
+      "enabled": false
+    },
+    "assembly": {
+      "execute": [
+        {
+          "invoke": {
+            "target-url": "$(target-url)$(request.path)"
+          }
+        }
+      ]
+    },
+    "phase": "realized"
+  },
+  "paths": {
+    "/contract/api/v1/account/{accountId}": {
+      "get": {
+        "tags": [
+          "account"
+        ],
+        "summary": "get ccount details by account Id",
+        "description": "get ccount details by account Id",
+        "operationId": "getAccountById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "the account Id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Account"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/FunctionalError"
+            }
+          },
+          "401": {
+            "description": "User authentication failed",
+            "schema": {
+              "$ref": "#/definitions/AuthorizationError"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "account"
+        ],
+        "summary": "update an account by account Id",
+        "description": "update an account by account Id",
+        "operationId": "updateAccount",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "the account Id",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "input request body for updating a subscription",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/FunctionalError"
+            }
+          },
+          "401": {
+            "description": "User authentication failed",
+            "schema": {
+              "$ref": "#/definitions/AuthorizationError"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "account"
+        ],
+        "summary": "deletes an account",
+        "description": "deletes an account",
+        "operationId": "deleteAccount",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "the account Id",
+            "type": "string",
+            "required": true,
+            "x-example": "ac001"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/DeleteAccountResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/FunctionalError"
+            }
+          },
+          "401": {
+            "description": "User authentication failed",
+            "schema": {
+              "$ref": "#/definitions/AuthorizationError"
+            }
+          }
+        }
+      }
+    },
+    "/contract/api/v1/account": {
+      "post": {
+        "tags": [
+          "account"
+        ],
+        "summary": "create an account",
+        "description": "create an account",
+        "operationId": "createAccount",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "input request event body to be created",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Account"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/FunctionalError"
+            }
+          },
+          "401": {
+            "description": "User authentication failed",
+            "schema": {
+              "$ref": "#/definitions/AuthorizationError"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "FunctionalError": {
+      "description": "functional exceptions",
+      "type": "object",
+      "properties": {
+        "errorMessage": {
+          "type": "string",
+          "description": "Refer to IBM Knowledge Center for Error Codes documentation",
+          "example": "WOORE0001E: tenantid is missing from request header"
+        }
+      }
+    },
+    "AuthorizationError": {
+      "description": "authentication exception",
+      "type": "object",
+      "properties": {
+        "errorMessage": {
+          "type": "string",
+          "description": "JsonWebToken is invalid or expired",
+          "example": "WOORE0003E: Authentication failed"
+        }
+      }
+    },
+    "Account": {
+      "type": "object",
+      "description": "account",
+      "properties": {
+        "accountId": {
+          "description": "the account id",
+          "type": "string",
+          "example": "AC001"
+        },
+        "accountType": {
+          "description": "type of the account",
+          "type": "string",
+          "example": "Savings",
+          "enum": [
+            "Savings",
+            "Checking"
+          ]
+        },
+        "ownerFirstName": {
+          "description": "account owner's first name",
+          "type": "string",
+          "example": "John"
+        },
+        "ownerLastName": {
+          "description": "account owner's last name",
+          "type": "string",
+          "example": "Doe"
+        }
+      }
+    },
+    "DeleteAccountResponse": {
+      "type": "object",
+      "description": "response  for delete subscription",
+      "properties": {
+        "accountId": {
+          "description": "the deleted account Id",
+          "type": "string",
+          "example": "AC001"
+        }
+      }
+    }
+  }
+}
